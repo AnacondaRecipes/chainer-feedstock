@@ -11,23 +11,29 @@ source:
 
 build:
   number: 0
-  script: {{ PYTHON }} -m pip install . -vv
   noarch: python
+  script: "{{ PYTHON }} -m pip install . -vv"
 
 requirements:
   host:
-    - pip
     - python >=3.5
-
+    - pip
+    - wheel
+    - setuptools
   run:
+    - python >=3.5
+    - setuptools
+    - typing_extensions
     - filelock
     - numpy >=1.9.0
-    - protobuf >=3.0
-    - python >=3.5
+    - protobuf >=3.0.0
     - six >=1.9.0
-    - typing_extensions
 
 test:
+  commands:
+    - pip check
+  requires:
+    - pip
   imports:
     - chainer
     - chainer.backends
@@ -36,7 +42,6 @@ test:
     - chainer.datasets
     - chainer.distributions
     - chainer.exporters
-    - chainer.function_hooks
     - chainer.functions
     - chainer.functions.activation
     - chainer.functions.array
@@ -50,10 +55,9 @@ test:
     - chainer.functions.rnn
     - chainer.functions.theano
     - chainer.functions.util
-    - chainer.graph_optimizations
-    - chainer.initializers
+    - chainer.function_hooks
     - chainer.iterators
-    - chainer.link_hooks
+    - chainer.initializers
     - chainer.links
     - chainer.links.activation
     - chainer.links.caffe
@@ -65,8 +69,10 @@ test:
     - chainer.links.normalization
     - chainer.links.rnn
     - chainer.links.theano
-    - chainer.optimizer_hooks
+    - chainer.link_hooks
+    - chainer.graph_optimizations
     - chainer.optimizers
+    - chainer.optimizer_hooks
     - chainer.serializers
     - chainer.testing
     - chainer.training
@@ -82,20 +88,22 @@ test:
     - chainermn.iterators
     - chainermn.links
     - chainermn.testing
-    - chainerx
 
 about:
   home: https://chainer.org/
-  license: MIT
+  license: MIT License
   license_family: MIT
   license_file: LICENSE
   summary: A flexible framework of neural networks
-  doc_url: https://docs.chainer.org/en/stable/
-  dev_url: https://pypi.org/project/chainer/
+  description: |
+    Chainer is a Python-based deep learning framework aiming at flexibility.
+    It provides automatic differentiation APIs based on the define-by-run
+    approach (a.k.a. dynamic computational graphs) as well as object-oriented
+    high-level APIs to build and train neural networks. It also supports
+    CUDA/cuDNN using CuPy for high performance training and inference.
+  doc_url: https://docs.chainer.org/en/stable
+  dev_url: https://github.com/chainer/chainer
 
 extra:
   recipe-maintainers:
-    - mxr-conda
-    - rluria14
-    - benhuff
-    - oblute
+    - nehaljwani
